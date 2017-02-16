@@ -3,10 +3,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // Import the components.
-import Component from './components/component.jsx'
+import { Order } from './components'
+import './style.css'
 
 // Define the root element.
 const root = document.querySelector('main')
 
 // Append the Component to the root element.
-ReactDOM.render(<Component />, root)
+ReactDOM.render(<Order />, root)

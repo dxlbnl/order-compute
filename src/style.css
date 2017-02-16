@@ -1,0 +1,18 @@
+html, body, main {
+  height: 100%;
+  display: flex;
+  flex: 1;
+  margin: 0;
+}
+
+main {
+  justify-content: center;
+  align-items: center;
+  background: #6e92de;
+}
+
+main > * {
+  display: flex;
+  flex: 1;
+  max-width: 600px;
+}

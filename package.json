@@ -24,8 +24,10 @@
   "author": "dexter@dexterlabs.nl",
   "license": "ISC",
   "dependencies": {
+    "rc-slider": "^6.1.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-rangeslider": "^2.0.1"
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
@@ -41,6 +43,7 @@
     "rollup-plugin-livereload": "^0.4.0",
     "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-postcss": "^0.2.0",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-serve": "^0.1.0",
     "rollup-plugin-uglify": "^1.0.1",

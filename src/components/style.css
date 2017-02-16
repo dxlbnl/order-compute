@@ -1,0 +1,9 @@
+.container {
+  flex-flow: column;
+  background: white;
+}
+
+.slider-container {
+  padding: 2em;
+  padding-top: 1em;
+}
