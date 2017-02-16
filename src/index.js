@@ -10,6 +10,5 @@ import './style.css'
 // Define the root element.
 const root = document.querySelector('main')
 
-
 // Append the Component to the root element.
-ReactDOM.render(<Order prices={api.prices()}/>, root)
+ReactDOM.render(<Order prices={api.prices()} />, root)

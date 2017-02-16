@@ -2,8 +2,8 @@ import _ from 'lodash'
 import Slider from 'rc-slider'
 import React from 'react'
 
-import 'rc-slider/assets/index.css';
-import style from  './style.css';
+import 'rc-slider/assets/index.css'
+import './style.css'
 
 const ComputeTypes = {
   ram: {
@@ -11,8 +11,8 @@ const ComputeTypes = {
     slider: {
       min: 1,
       max: 16,
-      defaultValue: 4,
-    },
+      defaultValue: 4
+    }
   },
   cpu: {
     label: 'vCPU',
@@ -20,45 +20,45 @@ const ComputeTypes = {
       min: 0.1,
       step: 0.1,
       max: 16,
-      defaultValue: 1,
-    },
+      defaultValue: 1
+    }
   },
   storage: {
-    label: "Storage",
+    label: 'Storage',
     slider: {
       min: 1,
       max: 500,
-      defaultValue: 30,
-    },
-  },
-};
+      defaultValue: 30
+    }
+  }
+}
 const currencies = {
   euro: {
     name: 'Euro',
-    symbol: '€',
+    symbol: '€'
   },
   dollar: {
     name: 'Dollar',
-    symbol: '$',
+    symbol: '$'
   }
 }
 
 export default class OrderView extends React.Component {
   static defaultProps = {
-    prices: {},
+    prices: {}
   };
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
       settings: _.mapValues(ComputeTypes, (value) => value.slider.defaultValue)
-    };
+    }
   }
 
   getType = (name) => ComputeTypes[name]
-  updateSettings(type, amount) {
-    const { settings } = this.state;
+  updateSettings (type, amount) {
+    const { settings } = this.state
     this.setState({
       settings: {
         ...settings,
@@ -67,7 +67,7 @@ export default class OrderView extends React.Component {
     })
   }
 
-  render() {
+  render () {
     const { prices } = this.props
     const { settings } = this.state
     const { nerdalize } = prices[0] // Why expose an array of objects?
@@ -83,7 +83,7 @@ export default class OrderView extends React.Component {
                 {...slider}
                 marks={{
                   [slider.min]: `${slider.min} ${price.unit}`,
-                  [slider.max]: `${slider.max} ${price.unit}`,
+                  [slider.max]: `${slider.max} ${price.unit}`
                 }}
                 onChange={(amount) => this.updateSettings(key, amount)}
               />
@@ -91,15 +91,15 @@ export default class OrderView extends React.Component {
           )
         )}
         <div>
-          <h2>Total: {
-            _.reduce(settings, 
+          <h2>Total: {currencies.euro.symbol}{
+            _.reduce(settings,
               (res, amount, type) =>
                 res + (nerdalize[type].unit_price * amount), 0
               ).toFixed(2) // 2 decimal points.
-          }
+          } per hour
           </h2>
         </div>
       </div>
-    );
+    )
   }
 }

@@ -15,10 +15,10 @@ export default (environment) => ({
       jsnext: true
     }),
     commonjs({
-      sourceMap: false,
+      sourceMap: false
     }),
     postcss({
-      extensions: [ '.css' ],
+      extensions: [ '.css' ]
     }),
     babel({
       babelrc: false,

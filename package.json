@@ -12,6 +12,7 @@
     "start": "npm run build:watch",
     "std": "standard --verbose | snazzy",
     "test": "npm run build:dev",
+    "fix": "standard --fix",
     "preversion": "git pull && npm up && npm run std --silent",
     "version": "npm run build && git add -A .",
     "postversion": "git push --tags origin HEAD"
@@ -30,6 +31,7 @@
     "react-rangeslider": "^2.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
@@ -52,6 +54,7 @@
     "standard": "^8.6.0"
   },
   "standard": {
+    "parser": "babel-eslint",
     "ignore": [
       "build"
     ]

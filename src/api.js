@@ -1,7 +1,6 @@
 
-
 export default {
-  prices() {
+  prices () {
     // GET /v1/prices
     return [{
       nerdalize: {

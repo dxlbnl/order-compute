@@ -3,10 +3,10 @@ import createConfig from './rollup.config'
 
 const config = createConfig('development')
 
-config.onwarn = ( warning ) => {
+config.onwarn = (warning) => {
   switch (warning.code) {
-    case 'SOURCEMAP_BROKEN': return;
-    case 'MISSING_EXPORT': return;
+    case 'SOURCEMAP_BROKEN': return
+    case 'MISSING_EXPORT': return
 
     default:
     case 'NON_EXISTENT_EXPORT':
@@ -14,7 +14,7 @@ config.onwarn = ( warning ) => {
   }
 
   // console.warn everything else
-  console.warn( warning.code, warning.message );
+  console.warn(warning.code, warning.message)
 }
 
-export default config;
+export default config
