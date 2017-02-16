@@ -1,11 +1,10 @@
 import _ from 'lodash'
 import Slider from 'rc-slider'
 import React from 'react'
+import moment from 'moment'
+import { Container, Header } from 'semantic-ui-react'
 
-import 'rc-slider/assets/index.css'
-import './style.css'
-
-const ComputeTypes = {
+const computeTypes = {
   ram: {
     label: 'Memory',
     slider: {
@@ -32,6 +31,13 @@ const ComputeTypes = {
     }
   }
 }
+const durationMarks = {
+  1: '1 day',
+  7: '1 week',
+  30: '1 month',
+  60: '2 months',
+  90: '3 months',
+}
 const currencies = {
   euro: {
     name: 'Euro',
@@ -52,11 +58,12 @@ export default class OrderView extends React.Component {
     super(props)
 
     this.state = {
-      settings: _.mapValues(ComputeTypes, (value) => value.slider.defaultValue)
+      duration: 1,
+      settings: _.mapValues(computeTypes, (value) => value.slider.defaultValue)
     }
   }
 
-  getType = (name) => ComputeTypes[name]
+  getType = (name) => computeTypes[name]
   updateSettings (type, amount) {
     const { settings } = this.state
     this.setState({
@@ -69,16 +76,41 @@ export default class OrderView extends React.Component {
 
   render () {
     const { prices } = this.props
-    const { settings } = this.state
+    const { settings, duration } = this.state
     const { nerdalize } = prices[0] // Why expose an array of objects?
 
+    const pricePerHour = _.reduce(settings,
+      (res, amount, type) =>
+        res + (nerdalize[type].unit_price * amount), 0
+      ) // 2 decimal points.
+    const totalPrice = pricePerHour * duration * 24 // Duration is in days
+
     return (
-      <div className='container'>
+      <Container>
+        <Header>Specify resources for a compute job</Header>
+        <div className='slider-container'>
+          <span>
+            <label>
+              Job duration: 
+              {moment.duration(duration, 'days').humanize()}
+              <small>({duration} days)</small>
+            </label>
+          </span>
+          <Slider
+            min={1}
+            max={90}
+            defaultValue={1}
+            marks={durationMarks}
+            onChange={(duration) => this.setState({ duration })}
+          />
+        </div>
         {_.map(nerdalize, (price, key) => ({ key, ...this.getType(key), price }))
           .map(({ key, label, slider, price }) => (
             <div className='slider-container' key={key}>
-              <h2>{settings[key]}</h2>
-              <label>{label} ({price.unit})</label>
+              <span>
+                <label>{label}</label>
+                <h2>{`${settings[key]} (${price.unit})`}</h2>
+              </span>
               <Slider
                 {...slider}
                 marks={{
@@ -91,15 +123,10 @@ export default class OrderView extends React.Component {
           )
         )}
         <div>
-          <h2>Total: {currencies.euro.symbol}{
-            _.reduce(settings,
-              (res, amount, type) =>
-                res + (nerdalize[type].unit_price * amount), 0
-              ).toFixed(2) // 2 decimal points.
-          } per hour
-          </h2>
+          <h2>Per hour: {currencies.euro.symbol}{pricePerHour.toFixed(2)}</h2>
+          <h2>Total: {currencies.euro.symbol}{totalPrice.toFixed(2)}</h2>
         </div>
-      </div>
+      </Container>
     )
   }
 }

@@ -3,12 +3,18 @@ Hey!
 Welcome to our  newly started UI project. We're building an interface using web technologies that allows our users to easily order compute resources in the cloud for running their scientific algorithms to change the world :).
 
 
-Live preview -->> [HERE](https://neoel.github.io/order-compute/)
+Live preview: [HERE](https://neoel.github.io/order-compute/)
 
 Issues:
-  []: Inconsistent api in proposal (unit_price vs unitPrice)
-  []: Currencies should be decoupled from pricing units (always euro f.i.)
-  []: Should specify all possible 't' values.
+  - []: Inconsistent api in proposal (unit_price vs unitPrice)
+  - []: Currencies should be decoupled from pricing units (always euro f.i.)
+  - []: Should specify all possible 't' values.
+
+Ideas:
+  - []: Vertical bar sliders?
+  - []: Coloring the resources
+  - []: Show a circle graph to compare resource priorities
+  - []: Time guesstimation based on a compute profile
 
 
 This pull request should result in the creation of a UI component that makes it simple for these users to pick the right amount of compute resources of each type: RAM, vCPU and Storage. The users are Geo/Hydro/Bio tech engineers and although well-educated, they are not very knowledgable about the world of (virtual) cloud hardware and the resources involved. Yet we would like to provide them with a component that allows them to decide on how much they will order of each resource. We think that they would like to base this decision on the total cost of the resource for the duration of a certain project.

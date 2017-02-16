@@ -1,0 +1,28 @@
+@import "../node_modules/rc-slider/assets/index.css";
+@import "../node_modules/semantic-ui-css/semantic.css";
+
+html, body, main {
+  height: 100%;
+  display: flex;
+  flex: 1;
+  margin: 0;
+}
+
+main {
+  justify-content: center;
+  align-items: center;
+  background: #6e92de;
+
+  > * {
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+  }
+}
+
+
+.ui {
+  &.container {
+    background: white;
+  }
+}
