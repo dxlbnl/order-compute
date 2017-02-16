@@ -37,7 +37,7 @@ const durationMarks = {
   7: '1 week',
   30: '1 month',
   60: '2 months',
-  90: '3 months',
+  90: '3 months'
 }
 const currencies = {
   euro: {
@@ -74,14 +74,6 @@ export default class OrderView extends React.Component {
       }
     })
   }
-  calculateTotal () {
-    const { prices } = this.props
-    const { settings, duration } = this.state
-    const { nerdalize } = prices[0] // Why expose an array of objects?
-
-
-
-  }
   get nerdalize () {
     const { prices } = this.props
     const { nerdalize } = prices[0] // Why expose an array of objects?
@@ -102,9 +94,8 @@ export default class OrderView extends React.Component {
     return this.pricePerHour * duration * 24 // Duration is in days
   }
 
-
   render () {
-    const { settings, duration, total } = this.state
+    const { settings, duration } = this.state
     const pricePerHour = this.pricePerHour
     const totalPrice = this.totalPrice
     const nerdalize = this.nerdalize
@@ -129,26 +120,26 @@ export default class OrderView extends React.Component {
               />
             </List.Content>
           </List.Item>
-        {_.map(nerdalize, (price, key) => ({ key, ...this.getType(key), price }))
-          .map(({ key, label, slider, price }) => (
-            <List.Item key={key}>
-              <List.Header>{label}</List.Header>
-              <List.Content>
-                <Statistic>
-                  <Statistic.Value>{settings[key]}</Statistic.Value>
-                  <Statistic.Label>{price.unit}</Statistic.Label>
-                </Statistic>
-                <Slider
-                  {...slider}
-                  marks={{
-                    [slider.min]: `${slider.min} ${price.unit}`,
-                    [slider.max]: `${slider.max} ${price.unit}`
-                  }}
-                  onChange={(amount) => this.updateSettings(key, amount)}
-                />
-              </List.Content>
-            </List.Item>
-          )
+          {_.map(nerdalize, (price, key) => ({ key, ...this.getType(key), price }))
+            .map(({ key, label, slider, price }) => (
+              <List.Item key={key}>
+                <List.Header>{label}</List.Header>
+                <List.Content>
+                  <Statistic>
+                    <Statistic.Value>{settings[key]}</Statistic.Value>
+                    <Statistic.Label>{price.unit}</Statistic.Label>
+                  </Statistic>
+                  <Slider
+                    {...slider}
+                    marks={{
+                      [slider.min]: `${slider.min} ${price.unit}`,
+                      [slider.max]: `${slider.max} ${price.unit}`
+                    }}
+                    onChange={(amount) => this.updateSettings(key, amount)}
+                  />
+                </List.Content>
+              </List.Item>
+            )
         )}
         </List>
         <div className='totals'>
