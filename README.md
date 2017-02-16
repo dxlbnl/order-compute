@@ -3,7 +3,7 @@ Hey!
 Welcome to our  newly started UI project. We're building an interface using web technologies that allows our users to easily order compute resources in the cloud for running their scientific algorithms to change the world :).
 
 
-Live preview -->> (HERE)[https://neoel.github.io/order-compute/]
+Live preview -->> [HERE](https://neoel.github.io/order-compute/)
 
 Issues:
   []: Inconsistent api in proposal (unit_price vs unitPrice)
