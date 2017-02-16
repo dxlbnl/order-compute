@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Slider from 'rc-slider'
 import React from 'react'
 import moment from 'moment'
-import { Container, Header } from 'semantic-ui-react'
+import { Container, Header, List } from 'semantic-ui-react'
 
 const computeTypes = {
   ram: {
@@ -88,40 +88,44 @@ export default class OrderView extends React.Component {
     return (
       <Container>
         <Header>Specify resources for a compute job</Header>
-        <div className='slider-container'>
-          <span>
-            <label>
+        <List>
+          <List.Item>
+            <List.Header>
               Job duration: 
+            </List.Header>
+            <List.Description>
               {moment.duration(duration, 'days').humanize()}
-              <small>({duration} days)</small>
-            </label>
-          </span>
-          <Slider
-            min={1}
-            max={90}
-            defaultValue={1}
-            marks={durationMarks}
-            onChange={(duration) => this.setState({ duration })}
-          />
-        </div>
+              ({duration} days)
+            </List.Description>
+            <List.Content>
+              <Slider
+                min={1}
+                max={90}
+                defaultValue={1}
+                marks={durationMarks}
+                onChange={(duration) => this.setState({ duration })}
+              />
+            </List.Content>
+          </List.Item>
         {_.map(nerdalize, (price, key) => ({ key, ...this.getType(key), price }))
           .map(({ key, label, slider, price }) => (
-            <div className='slider-container' key={key}>
-              <span>
-                <label>{label}</label>
-                <h2>{`${settings[key]} (${price.unit})`}</h2>
-              </span>
-              <Slider
-                {...slider}
-                marks={{
-                  [slider.min]: `${slider.min} ${price.unit}`,
-                  [slider.max]: `${slider.max} ${price.unit}`
-                }}
-                onChange={(amount) => this.updateSettings(key, amount)}
-              />
-            </div>
+            <List.Item key={key}>
+              <List.Header>{label}</List.Header>
+              <List.Description>{`${settings[key]} (${price.unit})`}</List.Description>
+              <List.Content>
+                <Slider
+                  {...slider}
+                  marks={{
+                    [slider.min]: `${slider.min} ${price.unit}`,
+                    [slider.max]: `${slider.max} ${price.unit}`
+                  }}
+                  onChange={(amount) => this.updateSettings(key, amount)}
+                />
+              </List.Content>
+            </List.Item>
           )
         )}
+        </List>
         <div>
           <h2>Per hour: {currencies.euro.symbol}{pricePerHour.toFixed(2)}</h2>
           <h2>Total: {currencies.euro.symbol}{totalPrice.toFixed(2)}</h2>
