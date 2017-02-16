@@ -9,6 +9,7 @@ Issues:
   - []: Inconsistent api in proposal (unit_price vs unitPrice)
   - []: Currencies should be decoupled from pricing units (always euro f.i.)
   - []: Should specify all possible 't' values.
+  - []: Is the compute price of a core per core or per unit?
 
 Ideas:
   - []: Vertical bar sliders?

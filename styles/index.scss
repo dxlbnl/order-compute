@@ -19,5 +19,25 @@ main {
   &.container {
     background: white;
     padding: 2em;
+
+    .item .content {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+
+      .statistic {
+        min-width: 5em;
+        flex: 0 1 10em;
+      }
+
+      .rc-slider {
+        margin: 2em;
+      }
+    }
+
+    .totals {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 }

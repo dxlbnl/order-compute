@@ -2,7 +2,8 @@ import _ from 'lodash'
 import Slider from 'rc-slider'
 import React from 'react'
 import moment from 'moment'
-import { Container, Header, List } from 'semantic-ui-react'
+import { Container, Header, List, Statistic } from 'semantic-ui-react'
+import OrderModal from './OrderModal'
 
 const computeTypes = {
   ram: {
@@ -73,31 +74,52 @@ export default class OrderView extends React.Component {
       }
     })
   }
-
-  render () {
+  calculateTotal () {
     const { prices } = this.props
     const { settings, duration } = this.state
     const { nerdalize } = prices[0] // Why expose an array of objects?
 
-    const pricePerHour = _.reduce(settings,
+
+
+  }
+  get nerdalize () {
+    const { prices } = this.props
+    const { nerdalize } = prices[0] // Why expose an array of objects?
+    return nerdalize
+  }
+  get pricePerHour () {
+    const nerdalize = this.nerdalize
+    const { settings } = this.state
+
+    return _.reduce(settings,
       (res, amount, type) =>
         res + (nerdalize[type].unit_price * amount), 0
-      ) // 2 decimal points.
-    const totalPrice = pricePerHour * duration * 24 // Duration is in days
+      )
+  }
+  get totalPrice () {
+    const { duration } = this.state
+
+    return this.pricePerHour * duration * 24 // Duration is in days
+  }
+
+
+  render () {
+    const { settings, duration, total } = this.state
+    const pricePerHour = this.pricePerHour
+    const totalPrice = this.totalPrice
+    const nerdalize = this.nerdalize
 
     return (
       <Container>
         <Header>Specify resources for a compute job</Header>
         <List>
           <List.Item>
-            <List.Header>
-              Job duration: 
-            </List.Header>
-            <List.Description>
-              {moment.duration(duration, 'days').humanize()}
-              ({duration} days)
-            </List.Description>
+            <List.Header>Job duration:</List.Header>
             <List.Content>
+              <Statistic>
+                <Statistic.Value>{duration}</Statistic.Value>
+                <Statistic.Label>days ({moment.duration(duration, 'days').humanize()})</Statistic.Label>
+              </Statistic>
               <Slider
                 min={1}
                 max={90}
@@ -111,8 +133,11 @@ export default class OrderView extends React.Component {
           .map(({ key, label, slider, price }) => (
             <List.Item key={key}>
               <List.Header>{label}</List.Header>
-              <List.Description>{`${settings[key]} (${price.unit})`}</List.Description>
               <List.Content>
+                <Statistic>
+                  <Statistic.Value>{settings[key]}</Statistic.Value>
+                  <Statistic.Label>{price.unit}</Statistic.Label>
+                </Statistic>
                 <Slider
                   {...slider}
                   marks={{
@@ -126,9 +151,21 @@ export default class OrderView extends React.Component {
           )
         )}
         </List>
-        <div>
-          <h2>Per hour: {currencies.euro.symbol}{pricePerHour.toFixed(2)}</h2>
-          <h2>Total: {currencies.euro.symbol}{totalPrice.toFixed(2)}</h2>
+        <div className='totals'>
+          <Statistic>
+            <Statistic.Value>{currencies.euro.symbol}{pricePerHour.toFixed(2)}</Statistic.Value>
+            <Statistic.Label>Per hour</Statistic.Label>
+          </Statistic>
+          <Statistic>
+            <Statistic.Value>{currencies.euro.symbol}{totalPrice.toFixed(2)}</Statistic.Value>
+            <Statistic.Label>Total</Statistic.Label>
+          </Statistic>
+          <OrderModal
+            button='Order'
+            header='Does this seem right?'
+            onClick={() => this.setState({ total: this.totalPrice })}
+            settings={this.state}
+          />
         </div>
       </Container>
     )
