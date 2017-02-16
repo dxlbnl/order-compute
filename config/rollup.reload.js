@@ -1,10 +1,8 @@
 // Rollup plugins.
-import createConfig from './rollup.config'
-
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 
-const config = createConfig('development')
+import config from './rollup.dev'
 
 config.plugins = config.plugins.concat([
   serve({
